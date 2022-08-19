@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/konva@8/konva.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #f0f0f0;
+        }
+      </style>
+
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div id="container"></div>
+
+
+    <script>
+
+        // Konva Stage size
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        // Size of the available design space
+        var rectWidth = 375;
+        var rectHeight = 500;
+
+        // Create the Parent Stage
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height,
+        });
+
+        // Create a Layer
+        var layer = new Konva.Layer();
+
+
+
+        var group = new Konva.Group({
+            clip: {
+                x: (width / 2) - (rectWidth / 2), // Center on stage
+                y: (height / 2) - (rectHeight / 2), // Center on stage
+                width: rectWidth,
+                height: rectHeight,
+            }
+        });
+
+        // Make the design space
+        var bgRect = new Konva.Rect({
+            x: (width / 2) - (rectWidth / 2), // Center on stage
+            y: (height / 2) - (rectHeight / 2), // Center on stage
+            width: rectWidth,
+            height: rectHeight,
+            fill: 'white',
+            stroke: 'black',
+            strokeWidth: 1,
+            // draggable:true
+        });
+
+        // Make the design space
+        var rect1 = new Konva.Rect({
+            x: (width / 2) - (rectWidth / 2), // Center on stage
+            y: (height / 2) - (rectHeight / 2), // Center on stage
+            width: 100,
+            height: 100,
+            fill: 'blue',
+            stroke: 'black',
+            strokeWidth: 1,
+            draggable:true
+        });
+
+        var tr = new Konva.Transformer();
+        tr.nodes([rect1]);
+
+        // add the shape to the layer
+        // layer.add(rect1);
+        group.add(bgRect); 
+        group.add(rect1);
+        layer.add(group);
+        layer.add(tr);
+
+
+
+
+        // add the layer to the stage
+        stage.add(layer);
+
+
+    </script>
+
+
+</body>
+</html>
