@@ -25,15 +25,20 @@
 
     <script>
 
-        // Konva Stage size
+        // Konva Stage size will fill
+        // the window
         var width = window.innerWidth;
         var height = window.innerHeight;
 
-        // Size of the available design space
-        var rectWidth = 375;
-        var rectHeight = 500;
+        // Size of the clipped area
+        var clipWidth = 375;
+        var clipHeight = 500;
 
-        // Create the Parent Stage
+        // Size of the draggable shape
+        var dragWidth = 100;
+        var dragHeight = 100;
+
+        // Create the Konva Stage
         var stage = new Konva.Stage({
             container: 'container',
             width: width,
@@ -43,33 +48,37 @@
         // Create a Layer
         var layer = new Konva.Layer();
 
-
-
+        // Create the clip group
+        // This appears as the 'canvas'
+        // in the middle
         var group = new Konva.Group({
             clip: {
-                x: (width / 2) - (rectWidth / 2), // Center on stage
-                y: (height / 2) - (rectHeight / 2), // Center on stage
-                width: rectWidth,
-                height: rectHeight,
+                x: (width / 2) - (clipWidth / 2), // Center on stage
+                y: (height / 2) - (clipHeight / 2), // Center on stage
+                width: clipWidth,
+                height: clipHeight,
             }
         });
 
-        // Make the design space
+        // Make a rectangle the same size
+        // as the clip group to appear
+        // to have a white background.
         var bgRect = new Konva.Rect({
-            x: (width / 2) - (rectWidth / 2), // Center on stage
-            y: (height / 2) - (rectHeight / 2), // Center on stage
-            width: rectWidth,
-            height: rectHeight,
+            x: (width / 2) - (clipWidth / 2), // Center on stage
+            y: (height / 2) - (clipHeight / 2), // Center on stage
+            width: clipWidth,
+            height: clipHeight,
             fill: 'white',
             stroke: 'black',
             strokeWidth: 1,
             // draggable:true
         });
 
-        // Make the design space
+        // Create a shape to move around on the
+        // clip group.
         var rect1 = new Konva.Rect({
-            x: (width / 2) - (rectWidth / 2), // Center on stage
-            y: (height / 2) - (rectHeight / 2), // Center on stage
+            x: (width / 2) - (dragWidth / 2),
+            y: (height / 2) - (dragWidth / 2),
             width: 100,
             height: 100,
             fill: 'blue',
@@ -78,22 +87,37 @@
             draggable:true
         });
 
+        // Create an 👻 invisible rectangle that is
+        // the same size as the rectangle to add
+        // to the transformer so the transformer
+        // can be moved while off the clip
+        // group
+        var invRect = new Konva.Rect({
+            x: (width / 2) - 50,
+            y: (height / 2) - 50,
+            width: 100,
+            height: 100,
+            // Invisible
+            draggable:true
+        });
+
         var tr = new Konva.Transformer();
-        tr.nodes([rect1]);
+        tr.nodes([
+            rect1,
+            invRect // 👻
+        ]);
 
-        // add the shape to the layer
-        // layer.add(rect1);
-        group.add(bgRect); 
+        // Visible within clip group (boundaries)
+        group.add(bgRect);
         group.add(rect1);
+
+        // Visible on the Stage (always)
         layer.add(group);
+        layer.add(invRect); // 👻
         layer.add(tr);
-
-
-
 
         // add the layer to the stage
         stage.add(layer);
-
 
     </script>
 
